@@ -63,6 +63,3 @@ def lambda_handler(event, context):
         logger.info('No pending terminations found')
 
     logger.info('ECS terminate function finished')
-
-event = {"queue_name":"ecs-autoscale-termination-monitor"}
-lambda_handler(event, 'asdf')

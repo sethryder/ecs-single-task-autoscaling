@@ -36,6 +36,3 @@ def lambda_handler(event, context):
         )
     else:
         logger.info('No action taken. Desired task is already correctly set at: %s', currentServiceDesiredTaskCount)
-
-#event = {'cluster_name': 'magento-dev', 'service_name': 'stack-test', 'min_task_count': 3}
-#lambda_handler(event, 'asdf')

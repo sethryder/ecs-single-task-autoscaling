@@ -98,12 +98,3 @@ def lambda_handler(event, context):
         logger.info('No pending terminations')
 
     logger.info('ECS deregister function finished')
-
-event = {
-    'lifecycle_queue_name': 'magento-dev-ecs-autoscale',
-    'elb_monitor_queue_name': 'ecs-autoscale-termination-monitor',
-    'elb_name': 'ecom-s-ext-lb-1',
-    'cluster_name': 'magento-dev',
-    }
-
-lambda_handler(event, 'asdf')
