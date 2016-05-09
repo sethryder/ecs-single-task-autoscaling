@@ -34,6 +34,8 @@ First lets create a policy for the Lambda Functions.
                 "ecs:DescribeTaskDefinition",
                 "ecs:DescribeTask",
                 "ecs:UpdateService",
+                "ecs:ListContainerInstances",
+                "ecs:DeregisterContainerInstance",
                 "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "autoscaling:CompleteLifecycleAction",
