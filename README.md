@@ -1,6 +1,6 @@
 # Single Task ECS Autoscaling
 
-These lambda functions are built to help making scaling a (single task) ECS Cluster a bit easier and manageble.
+These lambda functions are built to help making scaling a (single task) ECS Cluster a bit easier and manageable.
 
 ## Setup
 We will walk through explaining what each function does and how to setup the functions and other parts (IAM, Autoscaling Groups, etc) of the cluster.
@@ -14,7 +14,7 @@ First lets create a policy for the Lambda Functions.
 1. Create a new Policy, we will use the name **LambdaECSScalingExecutionRole** in this example.
 2. Select **Create Your Own Policy**.
 3. Enter a name and description for the policy.
-4. You can poste in the following policy. **Please note**: This policy is pretty wide open, so you can adjust it to make it more secure/controlled.
+4. You can paste in the following policy. **Please note**: This policy is pretty wide open, so you can adjust it to make it more secure/controlled.
 ```
 {
     "Version": "2012-10-17",
@@ -98,10 +98,10 @@ The lifecycle hook is now setup and ready to go. Any downscaling event will crea
 This is a small function that has one simple task. Keep your cluster at N+1 (or whatever you configure). Meaning it will make sure that there is always one (or more) instances then there is tasks. This function will not scale up or down any instances, its primary task is to.. well manage running tasks.
 
 ##### Setup
-1. Create a new Lamba functon (we will name it **ecsLambdaAutoScale** in our example) but you can name it what you want.
+1. Create a new Lambda function (we will name it **ecsLambdaAutoScale** in our example) but you can name it what you want.
 2. Attach the **lambda_autoscale_ecs** role to the function.
-3. Create a Cloudwatch event (using Rules) that will run the function every minute.
-  1. You can see the [Cloudwatch Docs](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatchEvents.html) for creating the event.
+3. Create a CloudWatch event (using Rules) that will run the function every minute.
+  1. You can see the [CloudWatch Docs](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatchEvents.html) for creating the event.
   2. To set the config options, use **Configure Input** and select **Constant (JSON text)**.
   3. Use the following JSON to set your options, replacing with your actual cluster information and configuring the way you would like:
 ```
@@ -113,7 +113,7 @@ This is a small function that has one simple task. Keep your cluster at N+1 (or 
 }
 ```
 
-It should now be running properly. It is set to log to cloudwatch, so you can check the Cloudwatch Logs for output.
+It should now be running properly. It is set to log to CloudWatch, so you can check the CloudWatch Logs for output.
 
 ##### Sample Log Output:
 ```
@@ -125,13 +125,13 @@ END RequestId: 9b2cd6e3-15c5-15e8-8312-7667ba85644d
 
 ### ecs_lambda_deregister_instance.py
 
-This function checks our SQS queue to see if any instances are pending notification. If it does find an instance pending termination it takes the proper steps to safetly decommision the instance. This includes unregestring it from our ECS cluster, removing it from the ELB (allowing proper connection draining). Once it has done these functions it will add the instance to the termination monitoring pool where the **ecs_lambda_terminate_instance.py** function will complete termination.
+This function checks our SQS queue to see if any instances are pending notification. If it does find an instance pending termination it takes the proper steps to safetly decommision the instance. This includes unregistering it from our ECS cluster, removing it from the ELB (allowing proper connection draining). Once it has done these functions it will add the instance to the termination monitoring pool where the **ecs_lambda_terminate_instance.py** function will complete termination.
 
 ##### Setup
-1. Create a new Lamba functon (we will name it **ecsLambdaDeregisterInstance** in our example) but you can name it what you want.
+1. Create a new Lambda functon (we will name it **ecsLambdaDeregisterInstance** in our example) but you can name it what you want.
 2. Attach the **lambda_autoscale_ecs** role to the function.
-2. Create a Cloudwatch event (using Rules) that will run the function every minute.
-  1. You can see the [Cloudwatch Docs](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatchEvents.html) for creating the event.
+2. Create a CloudWatch event (using Rules) that will run the function every minute.
+  1. You can see the [CloudWatch Docs](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatchEvents.html) for creating the event.
   2. To set the config options, use **Configure Input** and select **Constant (JSON text)**.
   3. Use the following JSON to set your options, replacing with your actual cluster information (including the ELB that is in front of the service).:
 ```
@@ -159,13 +159,13 @@ END RequestId: dc762b46-1608-11e6-a58f-6346156e877c
 
 ### ecs_lambda_terminate_instance.py
 
-This function checks the termination queue for instances that are ready to be terminated. Before sending the OK for termination it will check to make sure the instance has succesfully been deregistered from the ELB. Once it determines that it is no longer registered to the ELB it will tell the Autoscaling Group that it is OK to terminate the instance.
+This function checks the termination queue for instances that are ready to be terminated. Before sending the OK for termination it will check to make sure the instance has successfully been deregistered from the ELB. Once it determines that it is no longer registered to the ELB it will tell the Autoscaling Group that it is OK to terminate the instance.
 
 ##### Setup
-1. Create a new Lamba functon (we will name it **ecsLambdaTerminateInstance** in our example) but you can name it what you want.
+1. Create a new Lambda function (we will name it **ecsLambdaTerminateInstance** in our example) but you can name it what you want.
 2. Attach the **lambda_autoscale_ecs** role to the function.
-2. Create a Cloudwatch event (using Rules) that will run the function every minute.
-  1. You can see the [Cloudwatch Docs](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatchEvents.html) for creating the event.
+2. Create a CloudWatch event (using Rules) that will run the function every minute.
+  1. You can see the [CloudWatch Docs](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatchEvents.html) for creating the event.
   2. To set the config options, use **Configure Input** and select **Constant (JSON text)**.
   3. Use the following JSON to set your options, replacing with your actual cluster information (including the ELB that is in front of the service).:
 ```
