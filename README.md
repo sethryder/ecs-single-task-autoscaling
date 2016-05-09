@@ -2,6 +2,9 @@
 
 These lambda functions are built to help making scaling a (single task) ECS Cluster a bit easier and manageable.
 
+**Note**: This is some early code. It has been used in production as of yet, so use at your own risk. I am sure it can be improved in many ways
+but I wanted to get it out.
+
 ## Setup
 We will walk through explaining what each function does and how to setup the functions and other parts (IAM, Autoscaling Groups, etc) of the cluster.
 
